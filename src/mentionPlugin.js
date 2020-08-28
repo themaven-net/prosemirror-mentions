@@ -339,6 +339,37 @@ export function getMentionsPlugin(opts) {
             class: opts.suggestionTextClass
           })
         ]);
+      },
+
+      handleDOMEvents: {
+        blur(view, e) {
+          var state = this.getState(view.state);
+          if (state && state.active) {
+            // hide suggestions list if view is not focused
+            // hide after a timeout so that losing focus when selecting a list-item is handled properly.
+            setTimeout(function() {
+              hideList();
+            }, 500);
+            return false;
+          }
+          return true;
+        },
+        focus: function(view, e) {
+          var state = this.getState(view.state);
+          if (state && state.suggestions.length) {
+            opts.getSuggestions(
+              state.type,
+              state.text,
+              function(suggestions) {
+                // update `state` argument with suggestions
+                state.suggestions = suggestions;
+                showList(view, state, suggestions, opts);
+              },
+              opts.extras,
+              view
+            );
+          }
+        }
       }
     },
 

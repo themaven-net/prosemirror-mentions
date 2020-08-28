@@ -115,7 +115,7 @@ var getNewState = function() {
 export function getMentionsPlugin(opts) {
   // default options
   var defaultOpts = {
-    doc: document,
+    doc: typeof document === "undefined" ? null : document,
     mentionTrigger: "@",
     hashtagTrigger: "#",
     allowSpace: true,

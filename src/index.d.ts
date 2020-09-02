@@ -1,4 +1,5 @@
 export interface PluginConfig {
+  doc?: any | null;
   allowSpace: any;
   hashtagTrigger: any;
   getSuggestions: any;
